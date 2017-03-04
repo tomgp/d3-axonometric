@@ -1,5 +1,6 @@
 export default projection;
 export {axonometricPath as axonometricPath};
+export {axonometricLine as axonometricLine};
 
 function projection(){
 	var angle = Math.PI/8;
@@ -27,17 +28,6 @@ function axonometricPath(){
   return 'path';
 }
 
-// export path function(){
-
-//   var projector = 
-
-//   function pathGenerator(data){
-
-//   }
-
-//   pathGenerator.projector = function(p){
-//     if(p === undefined) return projector;
-//   }
-
-//   return pathGenerator;
-// }
+function axonometricLine(){
+  return 'line';
+}
