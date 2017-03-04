@@ -1,4 +1,7 @@
-export default function(){
+export default projection;
+export {axonometricPath as axonometricPath};
+
+function projection(){
 	var angle = Math.PI/8;
 	var sinAngle = Math.sin(angle);
 	var cosAngle = Math.cos(angle);
@@ -19,3 +22,22 @@ export default function(){
 
 	return projector;
 }
+
+function axonometricPath(){
+  return 'path';
+}
+
+// export path function(){
+
+//   var projector = 
+
+//   function pathGenerator(data){
+
+//   }
+
+//   pathGenerator.projector = function(p){
+//     if(p === undefined) return projector;
+//   }
+
+//   return pathGenerator;
+// }
