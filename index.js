@@ -1,1 +1,1 @@
-export {default as axonometric} from "./src/axonometric";
+export {default as axonometricProjection} from "./src/axonometric";
