@@ -6,8 +6,8 @@ tape("foo() returns the answer to the ultimate question of life, the universe, a
   var coords = projector([1,1,1]) 
   test.equal(coords[0], 0);
   test.equal(coords[1], -0.23463313526982044 );
-  test.equal(axonometric.axonometricPath(),'path');
-  test.equal(axonometric.axonometricLine(),'line');
+  test.equal(axonometric.axonometricPath(),'ax path');
+  test.equal(axonometric.axonometricLine(),'ax line');
   test.end();
 });
 

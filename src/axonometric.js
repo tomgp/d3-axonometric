@@ -1,6 +1,4 @@
 export default projection;
-export {axonometricPath as axonometricPath};
-export {axonometricLine as axonometricLine};
 
 function projection(){
 	var angle = Math.PI/8;
@@ -22,12 +20,4 @@ function projection(){
     };
 
 	return projector;
-}
-
-function axonometricPath(){
-  return 'path';
-}
-
-function axonometricLine(){
-  return 'line';
 }
