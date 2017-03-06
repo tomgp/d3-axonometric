@@ -15,7 +15,7 @@
     "url": "https://github.com/tomgp/d3-axonometric.git"
   },
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -g d3-path:d3 -f umd -n d3 -o build/d3-axonometric.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -g d3-shape:d3 -f umd -n d3 -o build/d3-axonometric.js -- index.js",
     "test": "tape 'test/**/*-test.js'",
     "prepublish": "npm run test && uglifyjs build/d3-axonometric.js -c -m -o build/d3-axonometric.min.js",
     "postpublish": "zip -j build/d3-axonometric.zip -- LICENSE README.md build/d3-axonometric.js build/d3-axonometric.min.js"
@@ -26,6 +26,6 @@
     "uglify-js": "2"
   },
   "dependencies": {
-    "d3-path": "^1.0.4"
+    "d3-shape": "^1.0.5"
   }
 }

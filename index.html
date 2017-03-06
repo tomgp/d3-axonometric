@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>AXONOMETRIC HELIX</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+        <script src="build/d3-axonometric.js"></script>
+        <style>
+        .spring{
+            fill:none;
+            stroke:black;
+            stroke-width: 1px;
+        }
+
+        .axis, #arrow{
+            fill: lightgrey;
+            stroke: lightgrey;
+            stroke-width: 1px;
+        }
+
+
+        </style>
+    </head>
+    <body>
+        <pre>
+   aXonometric
+heliX
+        </pre>
+        <svg width="600" height="600">
+            
+        </svg>
+    </body>
+    <script>
+        d3.select('svg').append('defs')
+            .append('marker')
+            .attrs({
+                'id':'arrow',
+                'viewBox':'0 -5 10 10',
+                'refX':5,
+                'refY':0,
+                'markerWidth':4,
+                'markerHeight':4,
+                'orient':'auto'
+            })
+            .append('path')
+                .attr('d', 'M0,-5L10,0L0,5')
+                .attr('class','arrowHead');
+    </script>
+    <script>
+        var radius = 100;
+        var separationConstant = 10;
+        var data = [];  
+        for(var t = 0; t<40; t+=0.2){ //generate the points in 3d space for the helix
+            data.push([ radius*Math.cos(t), separationConstant*t, radius*Math.sin(t),  ]);
+        }
+
+        var projection = d3.axonometricProjection()
+        var pathGenerator = d3.axonometricPath()
+            .projection(projection);
+
+        var lineGenerator = d3.axonometricLine();
+            //.projection(projection);
+
+        var origin = d3.select('svg')
+            .append('g')
+                .attr('transform','translate(300,500)')
+    
+        origin.append('line')
+            .attr('class','axis')
+            .attrs(lineGenerator([-200,0,0],[200,0,0]))
+
+        origin.append('line')
+            .attr('class','axis')
+            .attr('marker-end','url(#arrow)')
+            .attrs(lineGenerator([0,0,0],[0,400,0]))
+
+
+        origin.append('line')
+            .attr('class','axis')
+            .attrs(lineGenerator([0,0,-200],[0,0,200]))
+
+        origin.append('path')
+            .attr('class','spring')
+            .attr('d',pathGenerator(data));
+
+    </script>
+</html>
