@@ -19,8 +19,6 @@
             stroke: lightgrey;
             stroke-width: 1px;
         }
-
-
         </style>
     </head>
     <body>
@@ -32,22 +30,7 @@ heliX
             
         </svg>
     </body>
-    <script>
-        d3.select('svg').append('defs')
-            .append('marker')
-            .attrs({
-                'id':'arrow',
-                'viewBox':'0 -5 10 10',
-                'refX':5,
-                'refY':0,
-                'markerWidth':4,
-                'markerHeight':4,
-                'orient':'auto'
-            })
-            .append('path')
-                .attr('d', 'M0,-5L10,0L0,5')
-                .attr('class','arrowHead');
-    </script>
+
     <script>
         var radius = 100;
         var separationConstant = 10;
@@ -73,7 +56,6 @@ heliX
 
         origin.append('line')
             .attr('class','axis')
-            .attr('marker-end','url(#arrow)')
             .attrs(lineGenerator([0,0,0],[0,400,0]))
 
 
