@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>AXONOMETRIC HELIX</title>
+        <title>AXONOMETRIC Paths</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -19,49 +19,103 @@
             stroke: lightgrey;
             stroke-width: 1px;
         }
+
+        .left-face{
+            fill:#999;
+            stroke:#000;
+        }
+        .right-face{
+            fill:#bbb;
+            stroke:#000;
+        }
+        .top-face{
+            fill:#FFF;
+            stroke:#000;
+        }
+
         </style>
     </head>
     <body>
-        <pre>
-   aXonometric
-heliX
-        </pre>
-        <svg width="600" height="600">
-            
-        </svg>
+<h1>Axonometric projection: paths and lines</h1>
+        <svg class="slab" width="600" height="600"></svg>
+        <svg class="helix" width="600" height="600"></svg>
     </body>
 
     <script>
+
+        var projection = d3.axonometricProjection();
+
+        var pathGenerator = d3.axonometricPath()
+            .projection(projection);
+
+        var lineGenerator = d3.axonometricLine()
+            .projection(projection);
+
+
+        function makeSlab(slabWidth, slabDepth, slabHeight){
+            var topFace = [
+                [-slabWidth, slabDepth, -slabHeight],
+                [0, slabDepth, -slabHeight],
+                [0, slabDepth, 0],
+                [-slabWidth, slabDepth, 0] ];
+
+            var leftFace = [
+                [-slabWidth, slabDepth, 0],
+                [0, slabDepth, 0],
+                [0, 0, 0],
+                [-slabWidth, 0, 0] ];
+
+            var rightFace = [
+                [0, slabDepth, 0],
+                [0, slabDepth, -slabHeight],
+                [0, 0, -slabHeight],
+                [0, 0, 0] ];
+
+                return [ 
+                    {'class':'left-face',shape:leftFace},
+                    {'class':'right-face',shape:rightFace},
+                    {'class':'top-face', shape:topFace} 
+                ];
+        }
+
+
+        d3.select('svg.slab')
+            .append('g')
+                .attr('class','origin')
+                .attr('transform','translate(300,500)')
+            .selectAll('path')
+            .data(makeSlab(100,10,200))
+                .enter()
+            .append('path')
+                .attr('d',function(d){
+                    return pathGenerator(d.shape) + 'z';
+                })
+                .attr('class',function(d){ return d.class; });
+
+
         var radius = 100;
         var separationConstant = 10;
         var data = [];  
         for(var t = 0; t<40; t+=0.2){ //generate the points in 3d space for the helix
             data.push([ radius*Math.cos(t), separationConstant*t, radius*Math.sin(t),  ]);
         }
-
-        var projection = d3.axonometricProjection()
-        var pathGenerator = d3.axonometricPath()
-            .projection(projection);
-
-        var lineGenerator = d3.axonometricLine();
             //.projection(projection);
 
-        var origin = d3.select('svg')
+        var origin = d3.select('svg.helix')
             .append('g')
-                .attr('transform','translate(300,500)')
-    
-        origin.append('line')
-            .attr('class','axis')
-            .attrs(lineGenerator([-200,0,0],[200,0,0]))
+                .attr('transform','translate(300,500)');
 
         origin.append('line')
             .attr('class','axis')
-            .attrs(lineGenerator([0,0,0],[0,400,0]))
-
+            .attrs(lineGenerator([-200,0,0],[200,0,0]));
 
         origin.append('line')
             .attr('class','axis')
-            .attrs(lineGenerator([0,0,-200],[0,0,200]))
+            .attrs(lineGenerator([0,0,0],[0,400,0]));
+
+        origin.append('line')
+            .attr('class','axis')
+            .attrs(lineGenerator([0,0,-200],[0,0,200]));
 
         origin.append('path')
             .attr('class','spring')

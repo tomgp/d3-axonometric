@@ -2,7 +2,6 @@ import {default as axonometricProjection}  from "./axonometric";
 
 export default function(){
     var project = axonometricProjection();
-    //console.log(axonometricProjection);
 
     function drawer (start, end){
         var s = project(start);
@@ -16,7 +15,7 @@ export default function(){
     }
 
     drawer.projection = function(p){
-        if(p !== undefined) return project; 
+        if(p === undefined) return project; 
         project = p;
         return drawer;
     }
