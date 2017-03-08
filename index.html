@@ -23,14 +23,17 @@
         .left-face{
             fill:#999;
             stroke:#000;
+            stroke-linejoin:round;
         }
         .right-face{
             fill:#bbb;
             stroke:#000;
+            stroke-linejoin:round;
         }
         .top-face{
             fill:#FFF;
             stroke:#000;
+            stroke-linejoin:round;
         }
 
         </style>
@@ -51,6 +54,8 @@
         var lineGenerator = d3.axonometricLine()
             .projection(projection);
 
+        var getBounds = d3.axonometricBounds()
+            .projection(projection);
 
         function makeSlab(slabWidth, slabDepth, slabHeight){
             var topFace = [
@@ -79,22 +84,39 @@
         }
 
 
-        d3.select('svg.slab')
-            .append('g')
-                .attr('class','origin')
-                .attr('transform','translate(300,500)')
-            .selectAll('path')
-            .data(makeSlab(Math.random()*200,Math.random()*200,Math.random()*200))
-                .enter()
-            .append('path')
-                .attr('d',function(d){
-                    return pathGenerator(d.shape) + 'z';
-                })
-                .attr('class',function(d){ return d.class; });
+        (function draw(){
+            var data = makeSlab(Math.random()*200,Math.random()*200,Math.random()*200);
+            
+            var points = data.reduce(function(points,current){
+                return points.concat(current.shape);
+            },[]);
+            var bounds = getBounds(points);
+            d3.select('svg.slab').attr('viewBox', [bounds.x, bounds.y, bounds.width, bounds.height])
+
+            d3.select('svg.slab')
+                .append('g')
+                    .attr('class', 'origin')
+                .selectAll('path')
+                .data(data)
+                    .enter()
+                .append('path')
+                    .attr('d',function(d){
+                        return pathGenerator(d.shape) + 'z';
+                    })
+                    .attr('class',function(d){ return d.class; });
+        })();
 
         function change(){
+            var data = makeSlab(Math.random()*200,Math.random()*200,Math.random()*200);
+
+            var points = data.reduce(function(points,current){
+                return points.concat(current.shape);
+            },[]);
+            var bounds = getBounds(points);
+
+            d3.select('svg.slab').transition().attr('viewBox', [bounds.x, bounds.y, bounds.width, bounds.height]);           
             d3.selectAll('svg.slab path')
-                .data(makeSlab(Math.random()*200,Math.random()*200,Math.random()*200))
+                .data(data)
                 .transition()
                 .attr('d',function(d){
                     return pathGenerator(d.shape) + 'z';
