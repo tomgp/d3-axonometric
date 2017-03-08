@@ -84,13 +84,23 @@
                 .attr('class','origin')
                 .attr('transform','translate(300,500)')
             .selectAll('path')
-            .data(makeSlab(100,10,200))
+            .data(makeSlab(Math.random()*200,Math.random()*200,Math.random()*200))
                 .enter()
             .append('path')
                 .attr('d',function(d){
                     return pathGenerator(d.shape) + 'z';
                 })
                 .attr('class',function(d){ return d.class; });
+
+        function change(){
+            d3.selectAll('svg.slab path')
+                .data(makeSlab(Math.random()*200,Math.random()*200,Math.random()*200))
+                .transition()
+                .attr('d',function(d){
+                    return pathGenerator(d.shape) + 'z';
+                })
+                .attr('class',function(d){ return d.class; });
+        }
 
 
         var radius = 100;
