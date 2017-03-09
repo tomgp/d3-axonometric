@@ -1,6 +1,6 @@
 {
   "name": "d3-axonometric",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "description": "axonometric projection for d3",
   "keywords": [
     "d3",
